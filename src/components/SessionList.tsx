@@ -134,7 +134,18 @@ const SessionList: React.FC<SessionListProps> = ({ onSelectSession, apiUrl = 'ht
             ) : (
               filteredSessions.map((session) => (
                 <tr key={session.id}>
-                  <td className="session-id">{session.id.substring(0, 20)}...</td>
+                  <td className="session-id">
+                    <span title={session.id}>
+                      {session.id.length > 20 ? `${session.id.substring(0, 20)}…` : session.id}
+                    </span>
+                    <button
+                      className="copy-btn"
+                      onClick={() => navigator.clipboard.writeText(session.id)}
+                      title="Copy session ID"
+                    >
+                      Copy
+                    </button>
+                  </td>
                   <td>{formatDate(session.startTime)}</td>
                   <td>{formatDuration(session.startTime, session.endTime)}</td>
                   <td>{session.eventCount}</td>

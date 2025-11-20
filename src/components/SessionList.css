@@ -95,6 +95,23 @@
   font-family: monospace;
   font-size: 12px;
   color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-btn {
+  padding: 4px 8px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.copy-btn:hover {
+  background: #495057;
 }
 
 .device-info {
