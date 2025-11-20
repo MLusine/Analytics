@@ -191,6 +191,66 @@ const ReplayPlayer: React.FC<ReplayPlayerProps> = ({ sessionId, onClose, apiUrl 
     }
   };
 
+  const formatEventData = (data: any) => {
+    return JSON.stringify(data, null, 2).replace(/\\n/g, '\n');
+  };
+
+  const getEventRows = (event: ReplayEvent) => {
+    const rows: Array<{ label: string; value: React.ReactNode }> = [
+      { label: 'Type', value: event.type },
+      { label: 'Timestamp', value: new Date(event.timestamp).toLocaleString() },
+      { label: 'Page URL', value: event.pageUrl },
+    ];
+
+    if (event.type === 'click' && event.data.element) {
+      rows.push(
+        { label: 'Element Tag', value: event.data.element.tag },
+        { label: 'Element ID', value: event.data.element.id || '—' },
+        {
+          label: 'Element Classes',
+          value: event.data.element.classes?.length
+            ? event.data.element.classes.join(', ')
+            : '—',
+        },
+        { label: 'Text Content', value: event.data.element.text || '—' },
+        { label: 'Selector', value: event.data.element.selector || '—' }
+      );
+    }
+
+    if (event.type === 'scroll') {
+      rows.push(
+        { label: 'Scroll Depth', value: `${event.data.depth}%` },
+        { label: 'Direction', value: event.data.direction }
+      );
+    }
+
+    if (event.type === 'mutation') {
+      rows.push({
+        label: 'Mutations Count',
+        value: event.data.mutations?.length || 0,
+      });
+    }
+
+    if (event.type === 'snapshot') {
+      rows.push(
+        {
+          label: 'Viewport',
+          value: event.data.viewport
+            ? `${event.data.viewport.width} x ${event.data.viewport.height}`
+            : '—',
+        },
+        {
+          label: 'Device',
+          value: event.data.device
+            ? `${event.data.device.screenWidth} x ${event.data.device.screenHeight} (${event.data.device.timezone})`
+            : '—',
+        }
+      );
+    }
+
+    return rows;
+  };
+
   const handleTimelineClick = (event: ReplayEvent, index: number) => {
     setCurrentEventIndex(index);
     setSelectedEvent(event);
@@ -293,37 +353,24 @@ const ReplayPlayer: React.FC<ReplayPlayerProps> = ({ sessionId, onClose, apiUrl 
             <h4>Event Details</h4>
             {selectedEvent ? (
               <div className="event-details-content">
-                <div className="event-detail-item">
-                  <strong>Type:</strong> {selectedEvent.type}
-                </div>
-                <div className="event-detail-item">
-                  <strong>Timestamp:</strong> {new Date(selectedEvent.timestamp).toLocaleString()}
-                </div>
-                <div className="event-detail-item">
-                  <strong>Page URL:</strong> {selectedEvent.pageUrl}
-                </div>
-                {selectedEvent.type === 'click' && selectedEvent.data.element && (
-                  <div className="event-detail-item">
-                    <strong>Element:</strong> {selectedEvent.data.element.tag}
-                    {selectedEvent.data.element.id && (
-                      <span> (#{selectedEvent.data.element.id})</span>
-                    )}
-                    {selectedEvent.data.element.classes?.length > 0 && (
-                      <span> .{selectedEvent.data.element.classes.join('.')}</span>
-                    )}
-                  </div>
-                )}
-                {selectedEvent.type === 'scroll' && (
-                  <div className="event-detail-item">
-                    <strong>Scroll Depth:</strong> {selectedEvent.data.depth}%
-                    <br />
-                    <strong>Direction:</strong> {selectedEvent.data.direction}
-                  </div>
-                )}
-                <div className="event-detail-item">
-                  <strong>Full Data:</strong>
-                  <pre className="event-json">{JSON.stringify(selectedEvent.data, null, 2)}</pre>
-                </div>
+                <table className="event-details-table">
+                  <tbody>
+                    {getEventRows(selectedEvent).map((row, index) => (
+                      <tr key={`${row.label}-${index}`}>
+                        <th>{row.label}</th>
+                        <td>{row.value}</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <th>Full Data</th>
+                      <td>
+                        <pre className="event-json">
+                          {formatEventData(selectedEvent.data)}
+                        </pre>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             ) : (
               <div className="no-event-selected">Click on a timeline marker to view event details</div>

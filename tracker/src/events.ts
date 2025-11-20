@@ -171,7 +171,16 @@ export class EventTracker {
   }
 
   private getElementText(element: HTMLElement): string {
-    return element.textContent?.trim().substring(0, 100) || '';
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+      return element.value?.trim() || element.placeholder || '';
+    }
+
+    return (
+      element.textContent?.trim().substring(0, 100) ||
+      element.getAttribute('aria-label') ||
+      element.getAttribute('title') ||
+      ''
+    );
   }
 
   private generateSelector(element: HTMLElement): string {

@@ -179,20 +179,26 @@
 }
 
 .event-details-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  width: 100%;
 }
 
-.event-detail-item {
+.event-details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.event-details-table th,
+.event-details-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #dee2e6;
   font-size: 13px;
-  line-height: 1.5;
+  text-align: left;
 }
 
-.event-detail-item strong {
+.event-details-table th {
+  width: 140px;
   color: #495057;
-  display: block;
-  margin-bottom: 4px;
+  font-weight: 600;
 }
 
 .event-json {
