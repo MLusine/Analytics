@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import SessionList from './components/SessionList';
+import ReplayPlayer from './components/ReplayPlayer';
 
 function App() {
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+  const handleSelectSession = (sessionId: string) => {
+    setSelectedSessionId(sessionId);
+  };
+
+  const handleCloseReplay = () => {
+    setSelectedSessionId(null);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {selectedSessionId ? (
+        <ReplayPlayer
+          sessionId={selectedSessionId}
+          onClose={handleCloseReplay}
+          apiUrl={apiUrl}
+        />
+      ) : (
+        <SessionList
+          onSelectSession={handleSelectSession}
+          apiUrl={apiUrl}
+        />
+      )}
     </div>
   );
 }

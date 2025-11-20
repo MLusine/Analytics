@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Demo - Sample Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    h1 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+    
+    .section {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .section h2 {
+      color: #764ba2;
+      margin-bottom: 15px;
+    }
+    
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 10px 10px 0;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: #764ba2;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    .btn-success {
+      background: #28a745;
+    }
+    
+    .btn-success:hover {
+      background: #218838;
+    }
+    
+    input[type="text"] {
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 300px;
+      margin: 10px 10px 10px 0;
+    }
+    
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .card h3 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    
+    .status {
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .scroll-area {
+      height: 500px;
+      overflow-y: auto;
+      border: 2px dashed #ddd;
+      padding: 20px;
+      margin: 20px 0;
+      background: #f8f9fa;
+    }
+    
+    .scroll-content {
+      height: 2000px;
+      background: linear-gradient(to bottom, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    
+    .dynamic-content {
+      margin: 20px 0;
+      padding: 20px;
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 8px;
+    }
+    
+    .new-item {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Analytics Demo Website</h1>
+    <p>This is a sample website to demonstrate the analytics tracking system. All interactions are being tracked!</p>
+    
+    <div class="status" id="tracker-status">
+      ⏳ Loading tracker...
+    </div>
+    
+    <div class="section">
+      <h2>Click Events</h2>
+      <p>Click any of these buttons to generate click events:</p>
+      <button id="btn-primary">Primary Button</button>
+      <button class="btn-secondary" id="btn-secondary">Secondary Button</button>
+      <button class="btn-success" id="btn-success">Success Button</button>
+      <button id="btn-submit">Submit Form</button>
+    </div>
+    
+    <div class="section">
+      <h2>Form Interactions</h2>
+      <input type="text" id="text-input" placeholder="Type something here...">
+      <button id="btn-clear">Clear Input</button>
+    </div>
+    
+    <div class="section">
+      <h2>Scroll Events</h2>
+      <p>Scroll in the area below to generate scroll events (throttled to 1 per 200ms):</p>
+      <div class="scroll-area" id="scroll-container">
+        <div class="scroll-content">
+          <h3>Scrollable Content</h3>
+          <p>Keep scrolling to see scroll depth tracking...</p>
+          <p>Scroll depth: <span id="scroll-depth">0%</span></p>
+          <div style="height: 500px;"></div>
+          <p>More content here...</p>
+          <div style="height: 500px;"></div>
+          <p>Even more content...</p>
+          <div style="height: 500px;"></div>
+          <p>Bottom of scrollable area</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>DOM Mutations</h2>
+      <p>Click the button below to add/remove elements dynamically:</p>
+      <button id="btn-add-item">Add New Item</button>
+      <button id="btn-remove-item">Remove Last Item</button>
+      <div class="dynamic-content" id="mutation-container">
+        <p>Items will appear here when you click "Add New Item"</p>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Session Information</h2>
+      <div class="card">
+        <h3>Current Session</h3>
+        <p><strong>Session ID:</strong> <span id="session-id">Loading...</span></p>
+        <p><strong>User Agent:</strong> <span id="user-agent">Loading...</span></p>
+        <p><strong>Screen Size:</strong> <span id="screen-size">Loading...</span></p>
+        <p><strong>Timezone:</strong> <span id="timezone">Loading...</span></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tracking Script -->
+  <script 
+    src="http://localhost:3001/tracker/v1/demo/tracker.js"
+    data-api-url="http://localhost:3001">
+  </script>
+  
+  <script>
+    // Wait for tracker to load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (window.trackerInstance) {
+          const tracker = window.trackerInstance;
+          const sessionId = tracker.getSessionId();
+          
+          document.getElementById('session-id').textContent = sessionId;
+          document.getElementById('user-agent').textContent = navigator.userAgent;
+          document.getElementById('screen-size').textContent = `${window.screen.width}x${window.screen.height}`;
+          document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          
+          document.getElementById('tracker-status').textContent = '✅ Tracker loaded and active!';
+          document.getElementById('tracker-status').style.background = '#d4edda';
+          document.getElementById('tracker-status').style.color = '#155724';
+        } else {
+          document.getElementById('tracker-status').textContent = '❌ Tracker failed to load. Make sure the server is running.';
+          document.getElementById('tracker-status').style.background = '#f8d7da';
+          document.getElementById('tracker-status').style.color = '#721c24';
+        }
+      }, 500);
+    });
+    
+    // Scroll depth tracking
+    const scrollContainer = document.getElementById('scroll-container');
+    scrollContainer.addEventListener('scroll', () => {
+      const scrollTop = scrollContainer.scrollTop;
+      const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      const depth = Math.round((scrollTop / scrollHeight) * 100);
+      document.getElementById('scroll-depth').textContent = `${depth}%`;
+    });
+    
+    // DOM mutation demo
+    let itemCount = 0;
+    document.getElementById('btn-add-item').addEventListener('click', () => {
+      itemCount++;
+      const container = document.getElementById('mutation-container');
+      const newItem = document.createElement('div');
+      newItem.className = 'new-item';
+      newItem.textContent = `Dynamic Item #${itemCount} (added at ${new Date().toLocaleTimeString()})`;
+      container.appendChild(newItem);
+    });
+    
+    document.getElementById('btn-remove-item').addEventListener('click', () => {
+      const container = document.getElementById('mutation-container');
+      const items = container.querySelectorAll('.new-item');
+      if (items.length > 0) {
+        items[items.length - 1].remove();
+      }
+    });
+    
+    // Clear input
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      document.getElementById('text-input').value = '';
+    });
+  </script>
+</body>
+</html>
+

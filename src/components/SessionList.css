@@ -1,0 +1,134 @@
+.session-list {
+  padding: 20px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.session-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.session-list-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.refresh-btn {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.refresh-btn:hover {
+  background: #0056b3;
+}
+
+.session-list-filters {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.date-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.date-filters input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.session-list-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.session-list-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.session-list-table thead {
+  background: #f8f9fa;
+}
+
+.session-list-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.session-list-table td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.session-list-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.session-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.device-info {
+  text-transform: capitalize;
+}
+
+.view-btn {
+  padding: 6px 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.view-btn:hover {
+  background: #218838;
+}
+
+.no-sessions {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+}
+
+.session-list-loading,
+.session-list-error {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.session-list-error {
+  color: #dc3545;
+}
+
